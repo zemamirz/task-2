@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .blog-container {
+        max-width: 1200px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .blog-header h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .blog-card {
+        background: linear-gradient(to right, #eef2f3, #8e9eab);
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .blog-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .blog-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .blog-excerpt {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .blog-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .blog-footer span {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .btn-edit {
+        background: #3b82f6;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: background 0.3s;
+        align-self: stretch;
+        text-align: center;
+    }
+
+    .btn-edit:hover {
+        background: #2563eb;
+    }
+
+    .new-post {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .new-post a {
+        background: #10b981;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .new-post a:hover {
+        background: #059669;
+    }
+</style>
+
+<div class="blog-container">
+    <div class="blog-header">
+        <h2>Блог</h2>
+    </div>
+    <div class="blog-grid">
+        {% for post in posts %}
+        <div class="blog-card">
+            <h3 class="blog-title">{{ post.title }}</h3>
+            <p class="blog-excerpt">{{ post.text|slice:":100" }}...</p>
+            <div class="blog-footer">
+                <span>Добавлен: {{ post.date_added|date:"d M Y H:i" }}</span>
+                {% if user.is_authenticated %}
+                <a href="{% url 'edit_post' post.id %}" class="btn-edit">Редактировать</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="new-post">
+        <a href="{% url 'new_post' %}" class="btn">Добавить новый пост</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

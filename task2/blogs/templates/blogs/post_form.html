@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 3rem auto;
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 3rem;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #3a6186;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 1rem;
+        background: #ff7e5f;
+        color: #fff;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.3s;
+    }
+
+    .form-container button:hover {
+        background: #feb47b;
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="form-container">
+    <h2 class="form-title">{% if form.instance.pk %}Редактировать{% else %}Новый пост{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+{% endblock %}
